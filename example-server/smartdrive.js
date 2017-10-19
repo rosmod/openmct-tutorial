@@ -2,7 +2,9 @@
  Smartdrive.js simulates a small spacecraft generating telemetry.
 */
 
-function Smartdrive() {
+var SerialPort = require('serialport');
+
+function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
     this.state = {
         "case.speed": 0,
         "case.acceleration": 0,
@@ -10,6 +12,20 @@ function Smartdrive() {
         "motor.acceleration": 0,
         "smartdrive.telemetry", "OFF"
     };
+
+    this.port = new SerialPort(portName, {
+        baudRate: baudRate
+    });
+
+    this.port.on('error', function(err) {
+        console.error('ERROR: '+err.message);
+    });
+
+    var self = this;
+    this.port.on('data', function(data) {
+        self.updateState(data);
+    });
+
     this.history = {};
     this.listeners = [];
     Object.keys(this.state).forEach(function (k) {
@@ -33,8 +49,15 @@ function Smartdrive() {
     }.bind(this));
 };
 
-Smartdrive.prototype.updateState = function () {
-
+Smartdrive.prototype.updateState = function (data) {
+    var re = /\s*,\s*/;
+    values = data.split(re);
+    if (values.length == 4) {
+        this.state['case.speed']         = parseFloat(values[0]);
+        this.state['case.acceleration']  = parseFloat(values[1]);
+        this.state['motor.speed']        = parseFloat(values[2]);
+        this.state['motor.acceleration'] = parseFloat(values[3]);
+    }
 };
 
 /**
