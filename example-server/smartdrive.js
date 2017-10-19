@@ -10,8 +10,19 @@ function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
         "case.acceleration": 0,
         "motor.speed": 0,
         "motor.acceleration": 0,
-        "smartdrive.telemetry", "OFF"
+        "smartdrive.telemetry": "OFF"
     };
+
+    this.history = {};
+    this.listeners = [];
+    Object.keys(this.state).forEach(function (k) {
+        this.history[k] = [];
+    }, this);
+
+    setInterval(function () {
+        this.updateState();
+        this.generateTelemetry();
+    }.bind(this), 1000);
 
     this.port = new SerialPort(portName, {
         baudRate: baudRate
@@ -24,18 +35,7 @@ function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
     var self = this;
     this.port.on('data', function(data) {
         self.updateState(data);
-    });
-
-    this.history = {};
-    this.listeners = [];
-    Object.keys(this.state).forEach(function (k) {
-        this.history[k] = [];
-    }, this);
-
-    setInterval(function () {
-        this.updateState();
-        this.generateTelemetry();
-    }.bind(this), 1000);
+    });    
 
     console.log("Smartdrive telemetry initialized");
     console.log("Press Enter to toggle telemetry stream.");
@@ -51,12 +51,14 @@ function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
 
 Smartdrive.prototype.updateState = function (data) {
     var re = /\s*,\s*/;
-    values = data.split(re);
-    if (values.length == 4) {
-        this.state['case.speed']         = parseFloat(values[0]);
-        this.state['case.acceleration']  = parseFloat(values[1]);
-        this.state['motor.speed']        = parseFloat(values[2]);
-        this.state['motor.acceleration'] = parseFloat(values[3]);
+    if (data && data.length > 0) {
+        values = data.split(re);
+        if (values.length == 4) {
+            this.state['case.speed']         = parseFloat(values[0]);
+            this.state['case.acceleration']  = parseFloat(values[1]);
+            this.state['motor.speed']        = parseFloat(values[2]);
+            this.state['motor.acceleration'] = parseFloat(values[3]);
+        }
     }
 };
 
@@ -70,7 +72,6 @@ Smartdrive.prototype.generateTelemetry = function () {
         var state = { timestamp: timestamp, value: this.state[id], id: id};
         this.notify(state);
         this.history[id].push(state);
-        this.state["comms.sent"] += JSON.stringify(state).length;
     }, this);
 };
 
