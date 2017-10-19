@@ -4,7 +4,6 @@
 
 var SmartDrive = require('./smartdrive');
 var RealtimeServer = require('./realtime-server');
-var HistoryServer = require('./history-server');
 var StaticServer = require('./static-server');
 
 var expressWs = require('express-ws');
@@ -29,17 +28,14 @@ for (var i=2; i < process.argv.length; i++) {
 
 var smartDrive = new SmartDrive(serialPort, baudRate);
 var realtimeServer = new RealtimeServer(smartDrive);
-var historyServer = new HistoryServer(smartDrive);
 var staticServer = new StaticServer();
 
 app.use('/realtime', realtimeServer);
-app.use('/history', historyServer);
 app.use('/', staticServer);
 
 var port = process.env.PORT || 8085
 
 app.listen(port, function () {
     console.log('Open MCT hosted at http://localhost:' + port);
-    console.log('History hosted at http://localhost:' + port + '/history');
     console.log('Realtime hosted at ws://localhost:' + port + '/realtime');
 });

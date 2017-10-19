@@ -30,12 +30,12 @@
         },
         {
             "name": "Case Acceleration",
-            "key": "case.Acceleration",
+            "key": "case.acceleration",
             "values": [
                 {
                     "key": "value",
                     "name": "Value",
-                    "units": "mph/s",
+                    "units": "mphs",
                     "format": "float",
                     "min": 0,
                     "max": 50,
@@ -87,7 +87,7 @@
                 {
                     "key": "value",
                     "name": "Value",
-                    "units": "mph/s",
+                    "units": "mphs",
                     "format": "float",
                     "min": 0,
                     "max": 50,

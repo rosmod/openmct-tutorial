@@ -3,6 +3,9 @@
 */
 
 var SerialPort = require('serialport');
+var ROSLIB = require('roslib');
+
+console.log(ROSLIB);
 
 function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
     this.state = {
@@ -20,9 +23,8 @@ function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
     }, this);
 
     setInterval(function () {
-        this.updateState();
         this.generateTelemetry();
-    }.bind(this), 1000);
+    }.bind(this), 100);
 
     this.port = new SerialPort(portName, {
         baudRate: baudRate
@@ -43,7 +45,6 @@ function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
     process.stdin.on('data', function () {
         this.state['smartdrive.telemetry'] =
             (this.state['smartdrive.telemetry'] === "OFF") ? "ON" : "OFF";
-        this.state['comms.recd'] += 32;
         console.log("Telemetry Stream:  " + this.state["smartdrive.telemetry"]);
         this.generateTelemetry();
     }.bind(this));
@@ -52,7 +53,7 @@ function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
 Smartdrive.prototype.updateState = function (data) {
     var re = /\s*,\s*/;
     if (data && data.length > 0) {
-        values = data.split(re);
+        values = data.toString().split(re);
         if (values.length == 4) {
             this.state['case.speed']         = parseFloat(values[0]);
             this.state['case.acceleration']  = parseFloat(values[1]);

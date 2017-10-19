@@ -19,6 +19,8 @@ var objectProvider = {
                 var measurement = dictionary.measurements.filter(function (m) {
                     return m.key === identifier.key;
                 })[0];
+                console.log("Identifier Key: " + identifier.key);
+                console.log("Measurement: " + measurement)
                 return {
                     identifier: identifier,
                     name: measurement.name,
