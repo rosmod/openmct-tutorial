@@ -1,18 +1,18 @@
 {
-    "name": "Example Spacecraft",
-    "key": "sc",
+    "name": "Smartdrive Unit",
+    "key": "sd",
     "measurements": [
         {
-            "name": "Fuel",
-            "key": "prop.fuel",
+            "name": "Case Speed",
+            "key": "case.speed",
             "values": [
                 {
                     "key": "value",
                     "name": "Value",
-                    "units": "kilograms",
+                    "units": "mph",
                     "format": "float",
                     "min": 0,
-                    "max": 100,
+                    "max": 7,
                     "hints": {
                         "range": 1
                     }
@@ -29,8 +29,86 @@
             ]
         },
         {
-            "name": "Thrusters",
-            "key": "prop.thrusters",
+            "name": "Case Acceleration",
+            "key": "case.Acceleration",
+            "values": [
+                {
+                    "key": "value",
+                    "name": "Value",
+                    "units": "mph/s",
+                    "format": "float",
+                    "min": 0,
+                    "max": 50,
+                    "hints": {
+                        "range": 1
+                    }
+                },
+                {
+                    "key": "utc",
+                    "source": "timestamp",
+                    "name": "Timestamp",
+                    "format": "utc",
+                    "hints": {
+                        "domain": 1
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Motor Speed",
+            "key": "motor.speed",
+            "values": [
+                {
+                    "key": "value",
+                    "name": "Value",
+                    "units": "mph",
+                    "format": "float",
+                    "min": 0,
+                    "max": 7,
+                    "hints": {
+                        "range": 1
+                    }
+                },
+                {
+                    "key": "utc",
+                    "source": "timestamp",
+                    "name": "Timestamp",
+                    "format": "utc",
+                    "hints": {
+                        "domain": 1
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Motor Acceleration",
+            "key": "motor.acceleration",
+            "values": [
+                {
+                    "key": "value",
+                    "name": "Value",
+                    "units": "mph/s",
+                    "format": "float",
+                    "min": 0,
+                    "max": 50,
+                    "hints": {
+                        "range": 1
+                    }
+                },
+                {
+                    "key": "utc",
+                    "source": "timestamp",
+                    "name": "Timestamp",
+                    "format": "utc",
+                    "hints": {
+                        "domain": 1
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Telemetry Status",
+            "key": "smartdrive.telemetry",
             "values": [
                 {
                     "key": "value",
@@ -46,126 +124,6 @@
                             "value": 0
                         }
                     ],
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Received",
-            "key": "comms.recd",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "bytes",
-                    "format": "integer",
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Sent",
-            "key": "comms.sent",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "bytes",
-                    "format": "integer",
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Generator Temperature",
-            "key": "pwr.temp",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "℃",
-                    "format": "float",
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Generator Current",
-            "key": "pwr.c",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "Amps",
-                    "format": "float",
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Generator Voltage",
-            "key": "pwr.v",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "Volts",
-                    "format": "float",
                     "hints": {
                         "range": 1
                     }
