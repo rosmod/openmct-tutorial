@@ -26,11 +26,11 @@ for (var i=2; i < process.argv.length; i++) {
     }
 }
 
-var smartDrive = new SmartDrive(serialPort, baudRate);
-var realtimeServer = new RealtimeServer(smartDrive);
+//var smartDrive = new SmartDrive(serialPort, baudRate);
+//var realtimeServer = new RealtimeServer(smartDrive);
 var staticServer = new StaticServer();
 
-app.use('/realtime', realtimeServer);
+//app.use('/realtime', realtimeServer);
 app.use('/', staticServer);
 
 var port = process.env.PORT || 8085
