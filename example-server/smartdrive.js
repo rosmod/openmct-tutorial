@@ -3,9 +3,6 @@
 */
 
 var SerialPort = require('serialport');
-var ROSLIB = require('roslib');
-
-console.log(ROSLIB);
 
 function Smartdrive(portName = '/dev/ttyUSB0', baudRate=115200) {
     this.state = {
