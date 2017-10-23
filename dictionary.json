@@ -1,129 +1,15 @@
 {
-    "name": "Smartdrive Unit",
-    "key": "sd",
+    "name": "Ros System",
+    "key": "rs",
     "measurements": [
         {
-            "name": "Case Speed",
-            "key": "case.speed",
+            "name": "/listener",
+            "key": "/listener",
             "values": [
                 {
                     "key": "value",
                     "name": "Value",
-                    "units": "mph",
-                    "format": "float",
-                    "min": 0,
-                    "max": 7,
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Case Acceleration",
-            "key": "case.acceleration",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "mphs",
-                    "format": "float",
-                    "min": 0,
-                    "max": 50,
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Motor Speed",
-            "key": "motor.speed",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "mph",
-                    "format": "float",
-                    "min": 0,
-                    "max": 7,
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Motor Acceleration",
-            "key": "motor.acceleration",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "units": "mphs",
-                    "format": "float",
-                    "min": 0,
-                    "max": 50,
-                    "hints": {
-                        "range": 1
-                    }
-                },
-                {
-                    "key": "utc",
-                    "source": "timestamp",
-                    "name": "Timestamp",
-                    "format": "utc",
-                    "hints": {
-                        "domain": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Telemetry Status",
-            "key": "smartdrive.telemetry",
-            "values": [
-                {
-                    "key": "value",
-                    "name": "Value",
-                    "format": "enum",
-                    "enumerations": [
-                        {
-                            "string": "ON",
-                            "value": 1
-                        },
-                        {
-                            "string": "OFF",
-                            "value": 0
-                        }
-                    ],
+                    "units": "string",
                     "hints": {
                         "range": 1
                     }

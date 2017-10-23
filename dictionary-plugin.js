@@ -8,7 +8,7 @@ function getDictionary() {
 var objectProvider = {
     get: function (identifier) {
         return getDictionary().then(function (dictionary) {
-            if (identifier.key === 'smartdrive') {
+            if (identifier.key === 'rossystem') {
                 return {
                     identifier: identifier,
                     name: dictionary.name,
@@ -28,7 +28,7 @@ var objectProvider = {
                     telemetry: {
                         values: measurement.values
                     },
-                    location: 'example.taxonomy:smartdrive'
+                    location: 'example.taxonomy:rossystem'
                 };
             }
         });
@@ -57,7 +57,7 @@ var DictionaryPlugin = function (openmct) {
     return function install(openmct) {
         openmct.objects.addRoot({
             namespace: 'example.taxonomy',
-            key: 'smartdrive'
+            key: 'rossystem'
         });
 
         openmct.objects.addProvider('example.taxonomy', objectProvider);
