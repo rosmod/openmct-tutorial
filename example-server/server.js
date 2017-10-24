@@ -2,7 +2,6 @@
  * Basic implementation of a history and realtime server.
  */
 
-var ROSLIB = require('roslib');
 var RosSystem = require('./ros-system');
 var RealtimeServer = require('./realtime-server');
 var StaticServer = require('./static-server');
@@ -27,32 +26,14 @@ for (var i=2; i < process.argv.length; i++) {
     }
 }
 
-var ros = new ROSLIB.Ros({
-    url : 'ws://localhost:9090'
-});
 
-ros.on('connection', function() {
-    console.log('Connected to rosbridge websocket server.');
-});
 
-ros.on('error', function(error) {
-    console.log('Error connecting to rosbridge websocket server: ', error);
-});
-
-ros.on('close', function() {
-    console.log('Connection to rosbridge websocket server closed.');
-});
-
-var rosTopicsList = require('./rosTopicsList');
-console.log(rosTopicsList);
-console.log(ros);
-
-var rossystem = new RosSystem(ros, rosTopicsList);
+var rossystem = new RosSystem(url, rosbridgeport);
 var realtimeServer = new RealtimeServer(rossystem);
 var staticServer = new StaticServer();
 
 app.use('/realtime', realtimeServer);
-app.use('/', staticServer);
+//app.use('/', staticServer);
 
 var port = process.env.PORT || 8085
 

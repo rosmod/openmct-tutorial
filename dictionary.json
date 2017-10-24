@@ -9,7 +9,8 @@
                 {
                     "key": "value",
                     "name": "Value",
-                    "units": "string",
+                    "units": "None",
+                    "format" : "string",
                     "hints": {
                         "range": 1
                     }

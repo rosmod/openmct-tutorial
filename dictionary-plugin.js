@@ -1,5 +1,5 @@
 function getDictionary() {
-    return http.get('/dictionary.json')
+    return http.get('/dict.json')
         .then(function (result) {
             return result.data;
         });
@@ -16,7 +16,7 @@ var objectProvider = {
                     location: 'ROOT'
                 };
             } else {
-                var measurement = dictionary.measurements.filter(function (m) {
+                var measurement = dictionary.topics.filter(function (m) {
                     return m.key === identifier.key;
                 })[0];
                 console.log("Identifier Key: " + identifier.key);
