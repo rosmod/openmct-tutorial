@@ -33,7 +33,7 @@ var realtimeServer = new RealtimeServer(rossystem);
 var staticServer = new StaticServer();
 
 app.use('/realtime', realtimeServer);
-//app.use('/', staticServer);
+app.use('/', staticServer);
 
 var port = process.env.PORT || 8085
 

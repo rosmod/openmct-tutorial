@@ -16,28 +16,7 @@ function RosSystem(rosurl, rosbridgeport) {
     self.connectRos(rosurl)
         .then(function(){
             self.getDictionary()
-                .then(function(dict){
-                    self.dictionary = dict;
-                    console.log("Dictionary: ");
-                    console.log(self.dictionary);
-                    fs.writeFile('dict.json', JSON.stringify(self.dictionary, null, 2) , 'utf-8');
-                });
         });
-    /*
-      self.subscriber.forEach(function(s){
-      s.subscribe(function (message){
-      console.log('Recevied message on ' + s.name + ': ' +  message.data);
-      var timestamp = Date.now();
-      var id = s.name;
-      var state = { timestamp: timestamp, value: message.data, id: s.name};
-      console.log(state);
-      self.notify(state);
-      });
-      })*/
-    
-
-    
-
 };
 
 RosSystem.prototype.notify = function (point) {
@@ -132,14 +111,15 @@ RosSystem.prototype.parseDetails = function(details) {
     };
     parsed.push(timeval);
 
-    console.log("PARSED DETAILS");
-    console.log(parsed);
+    //console.log("PARSED DETAILS");
+    //console.log(parsed);
 
     return parsed;
 };
 
-RosSystem.prototype.getDictionary = function(){
+RosSystem.prototype.generateDictionary = function(){
     var self = this;
+    self.topicsListMap = {};
     function getTopics() {
         var deferred = Q.defer();
         self.ros.getTopics(function(topics) {
@@ -156,6 +136,7 @@ RosSystem.prototype.getDictionary = function(){
     
     return getTopics()
         .then(function(topics){
+            //console.log("Got Topics " + topics);
             var tasks = topics.map(function(topic){
                 var deferred = Q.defer();
                 var topicEntry = {
@@ -166,59 +147,84 @@ RosSystem.prototype.getDictionary = function(){
                 self.ros.getTopicType(topic, function(type){
                     self.ros.getMessageDetails(type, function(details){
                         // return the details
+                        //console.log(details);
                         deferred.resolve(details);
                     });
                 })
                 return deferred.promise
                     .then(function(details) {
                         // parse details
-                        console.log("GOT DETAILS:");
-                        console.log(details);
+                        //console.log("GOT DETAILS:");
+                        //console.log(details);
                         topicEntry.values = self.parseDetails(details);
+                        //console.log(topicEntry.values);
                         return topicEntry;
                     });
             });
             return Q.all(tasks)
                 .then(function(topicEntryArray) {
+                    //console.log(topicEntryArray);
+                    //console.log(process.cwd());
                     dict.topics = topicEntryArray;
+                    fs.writeFileSync('rosDictionary.json', JSON.stringify(dict, null, 2) , 'utf-8');
                     return dict;
                 });
         })
+};
+
+RosSystem.prototype.getDictionary = function(){
+    var self = this;
+    var deferred = Q.defer();
+    //console.log('generating dictionary')
+    self.generateDictionary()
+        .then(function(dict){
+            //console.log('dictionary generated!')
+            self.dictionary = dict;
+            self.updateSubscribers();
+            deferred.resolve(dict);
+        })
+    return deferred.promise;
+};
+
+RosSystem.prototype.updateSubscribers = function(){
+    var self = this;
+    self.subscribers = [];
+
+    self.subscribers.push(new ROSLIB.Topic({
+        ros: self.ros,
+        name: '/listener',
+        messageType: 'std_msgs/String'
+    }));
+
+    self.subscribers.forEach(function(s){
+        console.log(s);
+        s.subscribe(function(message){
+            var timestamp = Date.now();
+            var id = s.name;
+            var state = {timestamp: timestamp, value: message.data, id: s.name};
+            console.log(state);
+            self.notify(state);
+        });
+    });
 
 
+
+
+
+
+
+    
     /*
-      return getTopics()
-      .then(function(topics) { //get topic types
-      var tasks = topics.map(function(topic) {
-      dict.topics.push({
-      "name" : topic,
-      "key" : topic,
-      "values": []
+      self.subscriber.forEach(function(s){
+      s.subscribe(function (message){
+      console.log('Recevied message on ' + s.name + ': ' +  message.data);
+      var timestamp = Date.now();
+      var id = s.name;
+      var state = { timestamp: timestamp, value: message.data, id: s.name};
+      console.log(state);
+      self.notify(state);
       });
-      var deferred = Q.defer();
-      self.ros.getTopicType(topic, function(type) {
-      deferred.resolve(type);
-      });
-      return deferred.promise;
-      });
-      return Q.all(tasks);
-      })
-      .then(function(topicTypes) { //get message details for topic type
-      var tasks = topicTypes.map(function(topicType) {
-      var deferred = Q.defer();
-      self.ros.getMessageDetails(topicType, function(deets) {
-      
-      deferred.resolve();
-      });
-      return deferred.promise;
-      });
-      return Q.all(tasks);
-      })
-      .then(function() { //assemble dictionary
-      
-      return dict;
-      });*/
-
+      })*/
 };
 
 

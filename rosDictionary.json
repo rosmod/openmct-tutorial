@@ -141,32 +141,14 @@
       ]
     },
     {
-      "name": "/cmd_vel",
-      "key": "/cmd_vel",
+      "name": "/betterlistener",
+      "key": "/betterlistener",
       "values": [
         {
-          "key": "x",
-          "name": "x",
+          "key": "data",
+          "name": "data",
           "units": "None",
-          "format": "float",
-          "hints": {
-            "range": 1
-          }
-        },
-        {
-          "key": "y",
-          "name": "y",
-          "units": "None",
-          "format": "float",
-          "hints": {
-            "range": 1
-          }
-        },
-        {
-          "key": "z",
-          "name": "z",
-          "units": "None",
-          "format": "float",
+          "format": "string",
           "hints": {
             "range": 1
           }
@@ -281,6 +263,48 @@
           "name": "nsecs",
           "units": "None",
           "format": "int",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "utc",
+          "source": "timestamp",
+          "name": "Timestamp",
+          "format": "utc",
+          "hints": {
+            "domain": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "/cmd_vel",
+      "key": "/cmd_vel",
+      "values": [
+        {
+          "key": "x",
+          "name": "x",
+          "units": "None",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "y",
+          "name": "y",
+          "units": "None",
+          "format": "float",
+          "hints": {
+            "range": 1
+          }
+        },
+        {
+          "key": "z",
+          "name": "z",
+          "units": "None",
+          "format": "float",
           "hints": {
             "range": 1
           }
