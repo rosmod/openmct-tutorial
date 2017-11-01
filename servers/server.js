@@ -1,5 +1,5 @@
 /**
- * Basic implementation of a history and realtime server.
+ * Basic implementation of a realtime server.
  */
 
 var RosSystem = require('./ros-system');
