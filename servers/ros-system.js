@@ -9,13 +9,13 @@ var fs = require('fs');
 
 function RosSystem(rosurl, rosbridgeport) {
     var self = this;
-    var rosurl = 'ws://' + rosurl + ':' + rosbridgeport;
+    let url = 'ws://' + rosurl + ':' + rosbridgeport;
     self.subscribers = [];
     self.listeners = [];
     
-    self.connectRos(rosurl)
+    self.connectRos(url)
         .then(function(){
-            self.getDictionary()
+            self.getDictionary();
         });
 };
 
@@ -77,7 +77,7 @@ RosSystem.prototype.parseDetails = function(details) {
         "float64": "float",
 
         "byte": "byte",
-        "string": "string",
+        "string": "string"
     };
 
     details.map(function(detail) {
@@ -92,7 +92,7 @@ RosSystem.prototype.parseDetails = function(details) {
                     units: "None",
                     format: converted,
                     hints: {
-                        range: 1,
+                        range: 1
                     }
                 };
                 parsed.push(value);
@@ -150,7 +150,7 @@ RosSystem.prototype.generateDictionary = function(){
                         //console.log(details);
                         deferred.resolve(details);
                     });
-                })
+                });
                 return deferred.promise
                     .then(function(details) {
                         // parse details
@@ -169,7 +169,7 @@ RosSystem.prototype.generateDictionary = function(){
                     fs.writeFileSync('rosDictionary.json', JSON.stringify(dict, null, 2) , 'utf-8');
                     return dict;
                 });
-        })
+        });
 };
 
 RosSystem.prototype.getDictionary = function(){
@@ -182,7 +182,7 @@ RosSystem.prototype.getDictionary = function(){
             self.dictionary = dict;
             self.updateSubscribers();
             deferred.resolve(dict);
-        })
+        });
     return deferred.promise;
 };
 
@@ -230,5 +230,5 @@ RosSystem.prototype.updateSubscribers = function(){
 
 
 module.exports = function (rosurl, rosbridgeport) {
-    return new RosSystem(rosurl, rosbridgeport )
+    return new RosSystem(rosurl, rosbridgeport );
 };
