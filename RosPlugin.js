@@ -1,7 +1,7 @@
 /**
  * Plugin to interface with a realtime server running roslib.js, that itself is interfacing rosbridge ros component
- */
-
+*/
+/* global require, module */
 
 var RosPlugin = function (openmct){
     return function install (openmct){
